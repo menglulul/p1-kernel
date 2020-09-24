@@ -6,6 +6,7 @@ src/*/build
 **/*.img
 **/*.elf
 **/*.tar.gz
+*.diff
 
 *.pdf
 
