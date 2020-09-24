@@ -104,7 +104,7 @@ error_invalid_el1h:
 	handle_invalid_entry  ERROR_INVALID_EL1h
 
 sync_invalid_el0_64:
-	handle_invalid_entry  SYNC_INVALID_EL0_64
+	kernel_exit
 
 irq_invalid_el0_64:
 	handle_invalid_entry  IRQ_INVALID_EL0_64

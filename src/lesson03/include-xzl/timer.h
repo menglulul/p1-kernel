@@ -3,5 +3,6 @@
 
 void timer_init ( void );
 void handle_timer_irq ( void );
+void generic_timer_init ( void )
 
 #endif  /*_TIMER_H */

@@ -25,6 +25,9 @@ master:
 	ldr	x0, =SPSR_VALUE	
 	msr	spsr_el2, x0
 
+	adr	x0, vectors		// load VBAR_EL2 with virtual
+	msr	vbar_el2, x0		// vector table address
+
 	adr	x0, el1_entry		
 	msr	elr_el2, x0
 #else 					// xzl: Rpi3 hw boots from EL3. 
