@@ -5,6 +5,7 @@ src/*/build
 **/*.swp
 **/*.img
 **/*.elf
+**/*.tar.gz
 
 *.pdf
 
