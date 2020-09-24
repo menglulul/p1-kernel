@@ -41,6 +41,16 @@ master:
 	eret				
 
 el1_entry:
+	ldr	x0, #0b00000	
+	msr	spsr_el1, x0
+
+	adr	x0, el0_entry		
+	msr	elr_el1, x0
+
+	eret
+
+
+el0_entry:
 	adr	x0, bss_begin
 	adr	x1, bss_end
 	sub	x1, x1, x0
