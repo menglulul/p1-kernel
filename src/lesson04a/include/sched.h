@@ -13,6 +13,7 @@
 #define LAST_TASK task[NR_TASKS-1]
 
 #define TASK_RUNNING				0
+#define TASK_WAIT					1
 
 extern struct task_struct *current;
 extern struct task_struct * task[NR_TASKS];
@@ -44,7 +45,8 @@ struct task_struct {
 
 extern void sched_init(void);
 extern void schedule(void);
-//extern void timer_tick(void);
+extern void timer_tick(void);
+extern void change_state(int i);
 //extern void preempt_disable(void);
 //extern void preempt_enable(void);
 extern void switch_to(struct task_struct* next);

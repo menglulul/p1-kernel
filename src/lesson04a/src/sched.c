@@ -6,6 +6,7 @@ static struct task_struct init_task = INIT_TASK;
 struct task_struct *current = &(init_task);
 struct task_struct * task[NR_TASKS] = {&(init_task), };
 int nr_tasks = 1;
+int timer_cnt = 0;
 
 //void preempt_disable(void)
 //{
@@ -66,15 +67,30 @@ void schedule_tail(void) {
 //	preempt_enable();
 }
 
+void change_state(int i) {
+	switch(i) {
+		case TASK_RUNNING : current->state = TASK_RUNNING; printf("changed to running\n"); break;
+		case TASK_WAIT : current->state = TASK_WAIT; timer_cnt = 5; printf("changed to wait\n"); break;
+	}
+}
 
-//void timer_tick()
-//{
-//	--current->counter;
-//	if (current->counter>0 || current->preempt_count >0) {
-//		return;
-//	}
-//	current->counter=0;
-//	enable_irq();
-//	_schedule();
-//	disable_irq();
-//}
+void timer_tick()
+{
+	timer_cnt--;
+	if(timer_cnt>0){
+		printf("timer cnt: %d\n", timer_cnt);
+	} else {
+		timer_cnt=5;
+		struct task_struct * p;
+		for (int i = 0; i < NR_TASKS; i++){
+			p = task[i];
+			if(p && p->state == TASK_WAIT) {
+				switch_to(task[i]);
+				change_state(TASK_RUNNING);
+				schedule();
+			}
+		}
+	
+	}
+
+}
