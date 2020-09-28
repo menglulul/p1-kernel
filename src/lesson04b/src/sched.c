@@ -6,6 +6,9 @@ static struct task_struct init_task = INIT_TASK;
 struct task_struct *current = &(init_task);
 struct task_struct * task[NR_TASKS] = {&(init_task), };
 int nr_tasks = 1;
+int switch_cnt = 0;
+int id_out[200];
+int id_in[200];
 
 void preempt_disable(void)
 {
@@ -59,6 +62,17 @@ void switch_to(struct task_struct * next)
 		return;
 	struct task_struct * prev = current;
 	current = next;
+	if(switch_cnt<200) {
+		id_out[switch_cnt] = prev->pid;
+		id_in[switch_cnt] = current->pid;
+		switch_cnt++;
+	}
+	if(switch_cnt==200) {
+		switch_cnt = 0;
+		for(int i=0; i<200; i++) {
+			printf("Timestamp %d: switched from %d to %d.\n",i,id_out[i],id_in[i]);
+		}
+	}
 	cpu_switch_to(prev, next);
 }
 

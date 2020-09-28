@@ -40,6 +40,7 @@ struct task_struct {
 	long counter;
 	long priority;
 	long preempt_count;
+	long pid;
 };
 
 extern void sched_init(void);
