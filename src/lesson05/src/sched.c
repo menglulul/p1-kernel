@@ -9,6 +9,7 @@ static struct task_struct init_task = INIT_TASK;
 struct task_struct *current = &(init_task);
 struct task_struct * task[NR_TASKS] = {&(init_task), };
 int nr_tasks = 1;
+int timer_cnt = 0;
 
 void preempt_disable(void)
 {
@@ -23,6 +24,7 @@ void preempt_enable(void)
 
 void _schedule(void)
 {
+	//printf("scheduling\n");
 	preempt_disable();
 	int next,c;
 	struct task_struct * p;
@@ -30,6 +32,7 @@ void _schedule(void)
 		c = -1;
 		next = 0;
 		for (int i = 0; i < NR_TASKS; i++){
+			//printf("s%d\n",i);
 			p = task[i];
 			if (p && p->state == TASK_RUNNING && p->counter > c) {
 				c = p->counter;
@@ -77,6 +80,23 @@ void timer_tick()
 		return;
 	}
 	current->counter=0;
+
+	timer_cnt++;
+	if(timer_cnt==MAX_TIME){
+		timer_cnt=0;
+		struct task_struct * p;
+		for (int i = 0; i < NR_TASKS; i++){
+			p = task[i];
+			if (p->state == TASK_SLEEPING) {
+				if(p->sleep_cnt>0)
+					p->sleep_cnt--;
+				if(p->sleep_cnt==0)
+					p->state = TASK_RUNNING;
+			}
+		}
+	}
+
+
 	enable_irq();
 	_schedule();
 	disable_irq();
@@ -94,5 +114,12 @@ void exit_process(){
 		free_page(current->stack);
 	}
 	preempt_enable();
+	schedule();
+}
+
+void sleep(long seconds) {
+	printf("process will sleep for %d seconds\n", seconds);
+	current->state = TASK_SLEEPING;
+	current->sleep_cnt = seconds;
 	schedule();
 }

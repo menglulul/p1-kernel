@@ -160,7 +160,10 @@ el0_sync:
 	lsr	x24, x25, #ESR_ELx_EC_SHIFT		// exception class
 	cmp	x24, #ESR_ELx_EC_SVC64			// SVC in 64-bit state
 	b.eq	el0_svc
-	handle_invalid_entry 0, SYNC_ERROR
+	//handle_invalid_entry 0, SYNC_ERROR
+	bl my_handler
+	bl ret_from_syscall
+	
 
 sc_nr	.req	x25					// number of system calls
 scno	.req	x26					// syscall number
@@ -193,6 +196,13 @@ ret_from_fork:
 ret_to_user:
 	bl disable_irq				
 	kernel_exit 0 
+
+.globl my_handler
+my_handler:
+	mrs x1, esr_el1
+	mrs x2, elr_el1
+	add x2, x2, #4
+	bl handler_print
 
 .globl err_hang
 err_hang: b err_hang

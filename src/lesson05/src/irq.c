@@ -49,3 +49,9 @@ void handle_irq(void)
             printf("Unknown pending irq: %x\r\n", irq);
     }
 }
+
+void handler_print(void)
+{
+    unsigned int irq = get32(INT_SOURCE_0);
+    printf("handled a synchronous exception: %x\r\n", irq);
+}

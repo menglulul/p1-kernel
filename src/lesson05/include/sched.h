@@ -14,6 +14,9 @@
 
 #define TASK_RUNNING				0
 #define TASK_ZOMBIE				1
+#define TASK_SLEEPING			2
+
+#define MAX_TIME 5
 
 #define PF_KTHREAD		            	0x00000002	
 
@@ -43,6 +46,7 @@ struct task_struct {
 	long counter;
 	long priority;
 	long preempt_count;
+	long sleep_cnt;
 	unsigned long stack;
 	unsigned long flags;
 };
@@ -55,6 +59,7 @@ extern void preempt_enable(void);
 extern void switch_to(struct task_struct * next, int index);
 extern void cpu_switch_to(struct task_struct* prev, struct task_struct* next);
 extern void exit_process(void);
+extern void sleep(long seconds);
 
 #define INIT_TASK \
 /*cpu_context*/	{ {0,0,0,0,0,0,0,0,0,0,0,0,0}, \

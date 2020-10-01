@@ -18,6 +18,12 @@ call_sys_exit:
 	svc #0
 	ret
 
+.globl call_sys_sleep
+call_sys_sleep:
+	mov w8, #SYS_SLEEP_NUMBER	
+	svc #0
+	ret
+
 .globl call_sys_clone
 call_sys_clone:
 	/* Save args for the child.  */

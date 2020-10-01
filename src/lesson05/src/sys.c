@@ -24,4 +24,8 @@ void sys_exit(){
 	exit_process();
 }
 
-void * const sys_call_table[] = {sys_write, sys_malloc, sys_clone, sys_exit};
+void sys_sleep(long time){
+	sleep(time);
+}
+
+void * const sys_call_table[] = {sys_write, sys_malloc, sys_clone, sys_exit, sys_sleep};
