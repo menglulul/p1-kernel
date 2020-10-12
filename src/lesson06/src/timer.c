@@ -21,15 +21,15 @@ void handle_timer_irq( void )
 	timer_tick();
 }
 
-//void generic_timer_init ( void )
-//{
-//	gen_timer_init();
-//	gen_timer_reset();
-//}
-//
-//void handle_generic_timer_irq( void )
-//{
-//	gen_timer_reset();
-//	timer_tick();
-//}
+void generic_timer_init ( void )
+{
+	gen_timer_init();
+	gen_timer_reset();
+}
+
+void handle_generic_timer_irq( void )
+{
+	gen_timer_reset();
+	timer_tick();
+}
 

@@ -30,10 +30,11 @@ set_pgd:
 
 .globl get_pgd
 get_pgd:
-	mov x1, 0
-	ldr x0, [x1]
-	mov x0, 0x1000
-	msr	ttbr0_el1, x0
-	ldr x0, [x1]
+	#mov x1, 0
+	#ldr x0, [x1]
+	#mov x0, 0x1000
+	#msr	ttbr0_el1, x0
+	#ldr x0, [x1]
+	mrs	x0, ttbr1_el1
 	ret
 
